@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+]>
+
+<rdf:RDF
+    xmlns:owl ="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+
+
+  <owl:Class rdf:ID="AmbientLight"/>
+  <AmbientLight rdf:ID="HighestAmbientLight"/>
+  <AmbientLight rdf:ID="HighAmbientLight"/>
+  <AmbientLight rdf:ID="MediumAmbientLight"/>
+  <AmbientLight rdf:ID="LowAmbientLight"/>
+  <AmbientLight rdf:ID="LowestAmbientLight"/>
+
+  <owl:Class rdf:ID="ScreenBrightness"/>
+  <ScreenBrightness rdf:ID="HighestScreenBrightness"/>
+  <ScreenBrightness rdf:ID="HighScreenBrightness"/>
+  <ScreenBrightness rdf:ID="MediumScreenBrightness"/>
+  <ScreenBrightness rdf:ID="LowScreenBrightness"/>
+  <ScreenBrightness rdf:ID="LowestScreenBrightness"/>
+
+  <owl:ObjectProperty rdf:ID="hasScreenBrightness">
+    <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    <rdfs:domain rdf:resource="AmbientLight"/>
+    <rdfs:range rdf:resource="ScreenBrightness"/>
+  </owl:ObjectProperty>
+
+
+
+  <owl:Class rdf:ID="TimeOfDay"/>
+  <TimeOfDay rdf:ID="Night"/>
+  <TimeOfDay rdf:ID="Morning"/>
+  <TimeOfDay rdf:ID="Noon"/>
+  <TimeOfDay rdf:ID="Evening"/>
+
+  <owl:Class rdf:ID="RingtoneVolume"/>
+  <RingtoneVolume rdf:ID="OffRingtone"/>
+  <RingtoneVolume rdf:ID="QuietRingtone"/>
+  <RingtoneVolume rdf:ID="MediumRingtone"/>
+  <RingtoneVolume rdf:ID="LoudRingtone"/>
+
+  <owl:ObjectProperty rdf:ID="hasRingtoneVolume">
+    <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    <rdfs:domain rdf:resource="TimeOfDay"/>
+    <rdfs:range rdf:resource="RingtoneVolume"/>
+  </owl:ObjectProperty>
+
+
+
+  <owl:Class rdf:ID="Motion"/>
+  <Motion rdf:ID="InMotion"/>
+  <Motion rdf:ID="Stationary"/>
+
+  <owl:Class rdf:ID="VibrationLevel"/>
+  <VibrationLevel rdf:ID="OnVibration"/>
+  <VibrationLevel rdf:ID="OffVibration"/>
+
+  <owl:ObjectProperty rdf:ID="hasVibrationLevel">
+    <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    <rdfs:domain rdf:resource="Motion"/>
+    <rdfs:range rdf:resource="VibrationLevel"/>
+  </owl:ObjectProperty>
+
+
+</rdf:RDF>

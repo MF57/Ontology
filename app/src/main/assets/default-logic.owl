@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+]>
+
+<rdf:RDF
+    xmlns:owl ="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+
+  <AmbientLight about="LowestAmbientLight">
+  	<hasScreenBrightness rdf:resource="LowestScreenBrightness"/>
+  </AmbientLight>
+
+  <AmbientLight about="LowAmbientLight">
+  	<hasScreenBrightness rdf:resource="LowScreenBrightness"/>
+  </AmbientLight>
+
+  <AmbientLight about="MediumAmbientLight">
+  	<hasScreenBrightness rdf:resource="MediumScreenBrightness"/>
+  </AmbientLight>
+
+  <AmbientLight about="HighAmbientLight">
+  	<hasScreenBrightness rdf:resource="HighScreenBrightness"/>
+  </AmbientLight>
+
+  <AmbientLight about="HighestAmbientLight">
+  	<hasScreenBrightness rdf:resource="HighestScreenBrightness"/>
+  </AmbientLight>
+
+
+
+  <TimeOfDay about="Night">
+    <hasRingtoneVolume rdf:resource="OffRingtone"/>
+  </TimeOfDay>
+
+  <TimeOfDay about="Morning">
+    <hasRingtoneVolume rdf:resource="LoudRingtone"/>
+  </TimeOfDay>
+
+  <TimeOfDay about="Noon">
+    <hasRingtoneVolume rdf:resource="MediumRingtone"/>
+  </TimeOfDay>
+
+  <TimeOfDay about="Evening">
+    <hasRingtoneVolume rdf:resource="QuietRingtone"/>
+  </TimeOfDay>
+
+
+
+  <Motion about="InMotion">
+    <hasVibrationLevel rdf:resource="OnVibration"/>
+  </Motion>
+
+  <Motion about="Stationary">
+    <hasVibrationLevel rdf:resource="OffVibration"/>
+  </Motion>
+
+
+</rdf:RDF>
