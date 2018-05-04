@@ -9,12 +9,18 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
 import android.widget.TextView;
 
+import org.agh.ontology.reason.AmbientLight;
+import org.agh.ontology.reason.ReasonableService;
+import org.agh.ontology.reason.impl.OntologyReasonableService;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -26,9 +32,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private int brightness = 0;
 
+    private ReasonableService reasonableService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            this.reasonableService = new OntologyReasonableService(
+                    getAssets().open("domain.owl"),
+                    getAssets().open("default-logic.owl"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         setContentView(R.layout.activity_main);
 
         final TextView t = findViewById(R.id.dateTime);
@@ -49,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 // update TextView here!
                                 Date date = new Date();
                                 t.setText(dateFormat.format(date));
+
+                                //todo: remove this line
+                                t.setText(reasonableService.getScreenBrightnessFor(AmbientLight.values()[new Random().nextInt(5)]).toString());
                             }
                         });
                     }
@@ -70,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final TextView b = findViewById(R.id.brightness);
         try {
             brightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
-            float perc = (brightness /(float)255)*100;
+            float perc = (brightness / (float) 255) * 100;
             b.setText("Brightness: " + perc);
 
         } catch (Settings.SettingNotFoundException e) {
@@ -93,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                                     if (newBrightness != brightness) {
                                         brightness = newBrightness;
-                                        float perc = (brightness /(float)255)*100;
+                                        float perc = (brightness / (float) 255) * 100;
                                         b.setText("Brightness: " + perc);
                                     }
 
@@ -110,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         };
 
         thread2.start();
-
 
 
     }
@@ -163,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             final TextView t = findViewById(R.id.light);
             t.setText("Light Sensor: " + event.values[0]);
         }
-
 
 
     }
