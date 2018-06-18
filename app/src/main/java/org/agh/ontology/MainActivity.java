@@ -14,7 +14,9 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.agh.ontology.reason.AmbientLight;
@@ -63,6 +65,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         setContentView(R.layout.activity_main);
+
+        Button alternateButton = findViewById(R.id.alternate);
+        alternateButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                System.out.println("LOL");
+                try {
+                    reasonableService = new OntologyReasonableService(
+                            getAssets().open("domain.owl"),
+                            getAssets().open("alternative-logic.owl"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         final TextView t = findViewById(R.id.dateTime);
         final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
