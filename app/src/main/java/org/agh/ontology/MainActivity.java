@@ -1,5 +1,6 @@
 package org.agh.ontology;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -9,15 +10,18 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.agh.ontology.reason.AmbientLight;
 import org.agh.ontology.reason.ReasonableService;
+import org.agh.ontology.reason.ScreenBrightness;
 import org.agh.ontology.reason.impl.OntologyReasonableService;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor lightSensor;
 
     private int brightness = 0;
+
+    private ContentResolver cResolver;
+
 
     private ReasonableService reasonableService;
 
@@ -63,9 +70,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // update TextView here!
-                                Date date = new Date();
-                                t.setText(dateFormat.format(date));
+
 
                                 //todo: remove this line
                                 t.setText(reasonableService.getScreenBrightnessFor(AmbientLight.values()[new Random().nextInt(5)]).toString());
@@ -180,7 +185,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
             final TextView t = findViewById(R.id.light);
-            t.setText("Light Sensor: " + event.values[0]);
+            final float sensorValue = event.values[0];
+            int i = 0;
+
+            while (AmbientLight.values()[i].getLimit() < sensorValue && i != 4) {
+                i++;
+            }
+
+            ScreenBrightness screenBrightness = reasonableService.getScreenBrightnessFor(AmbientLight.values()[i]);
+            float brightness = 100 / (float)255;
+
+
+            switch (screenBrightness) {
+                case LowestScreenBrightness:
+                    brightness = 20 / (float)255;
+                    break;
+                case LowScreenBrightness:
+                    brightness = 40 / (float)255;
+                    break;
+                case MediumScreenBrightness:
+                    brightness = 60 / (float)255;
+                    break;
+                case HighScreenBrightness:
+                    brightness = 80 / (float)255;
+                    break;
+                case HighestScreenBrightness:
+                    brightness = 100 / (float)255;
+                    break;
+            }
+
+            System.out.println(brightness);
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.screenBrightness = brightness;
+            getWindow().setAttributes(lp);
+
+            t.setText("Light Sensor: " + sensorValue);
         }
 
 
